@@ -1,0 +1,49 @@
+# Sensitive configuration files
+config.php
+.env
+*.local
+
+# Upload directories (generated images)
+/uploads/qr-codes/
+/uploads/bar-codes/
+/uploads/user-files/
+uploads/
+
+# Logs and temporary files
+*.log
+*.tmp
+barcode_history.json
+*.cache
+
+# Database dumps
+*.sql
+*.sqlite
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swo
+*.swp
+*.swn
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+/vendor/
+/node_modules/
+
+# Composer
+composer.lock
+composer.phar
+
+# PHPUnit
+.phpunit.result.cache
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
