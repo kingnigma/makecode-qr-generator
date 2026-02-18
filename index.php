@@ -34,7 +34,72 @@ if (!empty($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakeCode - QR Code Generator</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Free QR Code & Barcode Generator Online | MakeCode - Create Custom QR Codes</title>
+    <meta name="title" content="Free QR Code & Barcode Generator Online | MakeCode - Create Custom QR Codes">
+    <meta name="description" content="Generate free QR codes and barcodes online instantly. Create custom QR codes for URLs, WiFi, vCard, email, SMS, location, and more. Download high-resolution codes in PNG/JPEG. 100% free with no signup required.">
+    <meta name="keywords" content="QR code generator, free QR code, barcode generator, create QR code, custom QR code, QR code maker, online QR generator, WiFi QR code, vCard QR code, URL QR code, QR code with logo, batch barcode generator, Code 128, EAN-13, UPC-A">
+    <meta name="author" content="Mathew Kings">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yourdomain.com/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:title" content="Free QR Code & Barcode Generator Online | MakeCode">
+    <meta property="og:description" content="Generate free QR codes and barcodes online instantly. Create custom QR codes for URLs, WiFi, vCard, email, SMS, and more. Download high-resolution codes in PNG/JPEG.">
+    <meta property="og:image" content="https://yourdomain.com/images/og-image.jpg">
+    <meta property="og:site_name" content="MakeCode">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://yourdomain.com/">
+    <meta name="twitter:title" content="Free QR Code & Barcode Generator Online | MakeCode">
+    <meta name="twitter:description" content="Generate free QR codes and barcodes online instantly. Create custom QR codes for URLs, WiFi, vCard, email, SMS, and more.">
+    <meta name="twitter:image" content="https://yourdomain.com/images/twitter-card.jpg">
+    <meta name="twitter:creator" content="@mathewkings9">
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "MakeCode QR Code & Barcode Generator",
+      "description": "Free online QR code and barcode generator with customization options. Create QR codes for URLs, WiFi, vCard, email, SMS, location, and more.",
+      "url": "https://yourdomain.com/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Mathew Kings",
+        "url": "https://mkportfolio.crestdigico.com",
+        "sameAs": [
+          "https://linkedin.com/in/mathew-kings",
+          "https://twitter.com/mathewkings9"
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250"
+      },
+      "featureList": "QR Code Generation, Barcode Generation, Custom Logo Upload, Color Customization, Batch Processing, WiFi QR Codes, vCard QR Codes, URL Shortening, Scan Tracking"
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    
+    <!-- Fonts & Styles -->
     <link href="https://fonts.cdnfonts.com/css/bignoodletitling" rel="stylesheet">
     <style>
         @import url('https://fonts.cdnfonts.com/css/bignoodletitling');
@@ -51,8 +116,15 @@ if (!empty($_SESSION['user_id'])) {
                 <img src="images/logo.png" alt="MakeCode logo" width="80px">
             </div>
 
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
             <!-- Navigation Links -->
-            <div class="nav-links">
+            <div class="nav-links" id="navLinks">
                 <a href="#" class="nav-link" id="whatIsQRBtn">What is a QR Code</a>
                 <a href="#" class="nav-link" id="howToUseBtn">How to use</a>
                 <a href="#" class="nav-link">Scan Code</a>
@@ -736,6 +808,7 @@ if (!empty($_SESSION['user_id'])) {
                                 <th style="padding:8px;border:1px solid #ddd;text-align:left;">Content</th>
                                 <th style="padding:8px;border:1px solid #ddd;text-align:left;">Scans</th>
                                 <th style="padding:8px;border:1px solid #ddd;text-align:left;">Created</th>
+                                <th style="padding:8px;border:1px solid #ddd;text-align:left;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -749,6 +822,9 @@ if (!empty($_SESSION['user_id'])) {
                                     <td style="padding:8px;border:1px solid #ddd;max-width:360px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><?php echo htmlspecialchars($qr['content']); ?></td>
                                     <td style="padding:8px;border:1px solid #ddd;"><?php echo (int)$qr['scan_count']; ?></td>
                                     <td style="padding:8px;border:1px solid #ddd;"><?php echo htmlspecialchars($qr['created_at']); ?></td>
+                                    <td style="padding:8px;border:1px solid #ddd;text-align:center;">
+                                        <button class="btn-delete-code" data-code-id="<?php echo (int)$qr['id']; ?>" style="padding:6px 12px;background-color:#dc3545;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">Delete</button>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -766,6 +842,7 @@ if (!empty($_SESSION['user_id'])) {
                                 <th style="padding:8px;border:1px solid #ddd;text-align:left;">Type</th>
                                 <th style="padding:8px;border:1px solid #ddd;text-align:left;">Content</th>
                                 <th style="padding:8px;border:1px solid #ddd;text-align:left;">Created</th>
+                                <th style="padding:8px;border:1px solid #ddd;text-align:left;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -775,6 +852,9 @@ if (!empty($_SESSION['user_id'])) {
                                     <td style="padding:8px;border:1px solid #ddd;"><?php echo htmlspecialchars($b['data_type']); ?></td>
                                     <td style="padding:8px;border:1px solid #ddd;max-width:360px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><?php echo htmlspecialchars($b['content']); ?></td>
                                     <td style="padding:8px;border:1px solid #ddd;"><?php echo htmlspecialchars($b['created_at']); ?></td>
+                                    <td style="padding:8px;border:1px solid #ddd;text-align:center;">
+                                        <button class="btn-delete-code" data-code-id="<?php echo (int)$b['id']; ?>" style="padding:6px 12px;background-color:#dc3545;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">Delete</button>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

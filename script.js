@@ -17,7 +17,38 @@ let qrCodeData = {
 // Initialize on page load
 document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
+  initializeMobileMenu();
 });
+
+// Mobile Menu Toggle
+function initializeMobileMenu() {
+  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  if (mobileMenuToggle && navLinks) {
+    mobileMenuToggle.addEventListener("click", function () {
+      navLinks.classList.toggle("active");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", function (e) {
+      if (
+        !mobileMenuToggle.contains(e.target) &&
+        !navLinks.contains(e.target)
+      ) {
+        navLinks.classList.remove("active");
+      }
+    });
+
+    // Close menu when clicking a link
+    const navLinksItems = navLinks.querySelectorAll(".nav-link, .btn");
+    navLinksItems.forEach((link) => {
+      link.addEventListener("click", function () {
+        navLinks.classList.remove("active");
+      });
+    });
+  }
+}
 
 // Initialize all event listeners
 function initializeEventListeners() {
@@ -961,3 +992,48 @@ function loadUserQRCodes(userId) {
       console.error("Network error:", error);
     });
 }
+
+// Delete QR Code or Barcode
+function deleteCode(codeId) {
+  if (
+    !confirm(
+      "Are you sure you want to delete this code? This action cannot be undone.",
+    )
+  ) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("code_id", codeId);
+
+  fetch("delete-code.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.success) {
+        console.log("Code deleted successfully");
+        // Reload the page to reflect changes
+        location.reload();
+      } else {
+        alert("Error deleting code: " + (result.error || "Unknown error"));
+        console.error("Error deleting code:", result.error);
+      }
+    })
+    .catch((error) => {
+      alert("Network error: " + error);
+      console.error("Network error:", error);
+    });
+}
+
+// Initialize delete button event listeners
+document.addEventListener("DOMContentLoaded", function () {
+  const deleteButtons = document.querySelectorAll(".btn-delete-code");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const codeId = this.getAttribute("data-code-id");
+      deleteCode(codeId);
+    });
+  });
+});

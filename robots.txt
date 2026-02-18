@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /config.php
+Disallow: /register_handler.php
+Disallow: /login_handler.php
+Disallow: /logout.php
+Disallow: /uploads/
+Disallow: /Libraries/
+Disallow: /vendor/
+
+Sitemap: https://yourdomain.com/sitemap.xml
